@@ -9,7 +9,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootPass
     ports:
-      - 27027:27027
+      - 27017:27017
 
   mongo-express:
     image: mongo-express
@@ -19,4 +19,4 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: rootPass
-      ME_CONFIG_MONGODB_URL: mongodb://root:rootPass@mongo:27027/
+      ME_CONFIG_MONGODB_URL: mongodb://root:rootPass@mongo:27017/
