@@ -1,13 +1,13 @@
-module.exports.login = (res, req) => {
-    req
+module.exports.login = (req, res) => {
+    res
         .status(200)
         .json({
             login: 'from controller',
         })
 }
 
-module.exports.register = (res, req) => {
-    req
+module.exports.register = (req, res) => {
+    res
         .status(200)
         .json({
             register: 'from controller',
