@@ -32,11 +32,11 @@ module.exports.remove = async (req, res) => {
     }
 }
 
-module.exports.create = (req, res) => async (req, res) => {
+module.exports.create = async (req, res) => {
     try {
-        const {name, file} = req.body
+        const name = req.body.name
         const user = req.user.id
-        const imageSrc = file?.path ?? ''
+        const imageSrc = req.file?.path ?? ''
         const category = await new Category({name, user, imageSrc}).save()
         res.status(201).json(category)
     } catch (e) {
@@ -44,5 +44,21 @@ module.exports.create = (req, res) => async (req, res) => {
     }
 }
 
-module.exports.update = (req, res) => {
+module.exports.update = async (req, res) => {
+    try {
+        const updated = {
+            name: req.body.name,
+        }
+        if (req.file) {
+            updated.imageSrc = req.file.path
+        }
+        const category = await Category.findOneAndUpdate(
+            {_id: req.params.id},
+            {$set: updated},
+            {new: true}
+        )
+        res.status(200).json(category)
+    } catch (e) {
+        errorHandler(res, e)
+    }
 }
