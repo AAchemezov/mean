@@ -7,5 +7,5 @@ export interface Category {
   name: string
   imageSrc?: string
   user?: string
-  __id?: string
+  _id?: string
 }
