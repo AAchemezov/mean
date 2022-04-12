@@ -5,10 +5,14 @@
     {{isNew ? 'Добавить категорию' : 'Редактировать'}}
   </h4>
   <span>
-    <button class="btn btn-small red">
+    <button
+      *ngIf="!isNew"
+      class="btn btn-small red"
+      (click)="deleteCategory()"
+    >
        <i class="material-icons">delete</i>
     </button>
-   </span>
+  </span>
 </div>
 
 <div class="row">
@@ -63,8 +67,9 @@
   <div class="col s12 l4 center">
     <img
       class="responsive-img h200"
-         [src]="imagePreview"
-         *ngIf="imagePreview"
+      [src]="imagePreview"
+      *ngIf="imagePreview"
+      alt="category image"
     >
   </div>
 </div>

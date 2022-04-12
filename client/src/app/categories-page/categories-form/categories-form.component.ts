@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoriesService} from "../../shared/services/categories.service";
 import {of, switchMap} from "rxjs";
@@ -24,6 +24,7 @@ export class CategoriesFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private categoriesService: CategoriesService,
+    private router: Router
   ) {
     this.form = new FormGroup({
       name: new FormControl(null, Validators.required)
@@ -54,7 +55,8 @@ export class CategoriesFormComponent implements OnInit {
           }
           this.form.enable()
         },
-        (error) => {
+        (e) => {
+          MaterialService.toast(e.error.message)
         },
       )
   }
@@ -68,7 +70,7 @@ export class CategoriesFormComponent implements OnInit {
       obs$ = this.categoriesService.update(this.category?._id || '', this.form.value.name, this.image)
     }
     obs$.subscribe(
-      (category) => {
+      () => {
         this.form.enable()
         MaterialService.toast("Изменения сохранены")
       },
@@ -94,5 +96,17 @@ export class CategoriesFormComponent implements OnInit {
       this.imagePreview = reader.result as string
     }
     reader.readAsDataURL(file)
+  }
+
+  deleteCategory() {
+    const decision = window.confirm(`Удалить категорию "${this.category?.name}"?`)
+    if (decision) {
+      this.categoriesService.remove(this.category?._id || '')
+        .subscribe(
+          (response) => MaterialService.toast(response.message),
+          (error) => MaterialService.toast(error.error.message),
+          () => this.router.navigate(['/categories']),
+        )
+    }
   }
 }
