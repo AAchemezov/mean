@@ -32,6 +32,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         MaterialService.toast("Теперь можно зайти в систему используя свои данные")
       } else if (params['accessDenied']) {
         MaterialService.toast("Для начала авторизуйтесь")
+      } else if (params['sessionFailed']) {
+        MaterialService.toast("Войдите в систему")
       }
     })
   }
