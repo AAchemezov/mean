@@ -9,7 +9,6 @@ export class AppComponent implements OnInit {
   title = 'client';
 
   constructor(private auth: AuthService) {
-
   }
 
   ngOnInit(): void {

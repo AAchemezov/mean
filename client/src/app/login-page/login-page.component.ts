@@ -1,8 +1,9 @@
-import {Component, OnInit, OnDestroy} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../shared/services/auth.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
+import {MaterialService} from "../shared/classes/material.service";
 
 @Component({
   selector: 'app-login-page',
@@ -28,9 +29,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       if (params['registered']) {
-        // Теперь можно зайти в систему используя свои данные
+        MaterialService.toast("Теперь можно зайти в систему используя свои данные")
       } else if (params['accessDenied']) {
-        // Для начала авторизуйтесь
+        MaterialService.toast("Для начала авторизуйтесь")
       }
     })
   }
@@ -47,7 +48,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         return this.router.navigate(['/overview'])
       },
       e => {
-        console.log(e)
+        MaterialService.toast(e.error.message)
         this.form.enable()
       }
     )
