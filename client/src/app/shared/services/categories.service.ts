@@ -18,4 +18,21 @@ export class CategoriesService {
     return this.http.get<Category>(`/api/category/${id}`)
   }
 
+  create(name: string, image?: File) {
+    const formdata = new FormData()
+    if (image) {
+      formdata.append('image', image, image.name)
+    }
+    formdata.append('name', name)
+    return this.http.post<Category>('/api/category', formdata)
+  }
+
+  update(id: string, name: string, image?: File) {
+    const formdata = new FormData()
+    if (image) {
+      formdata.append('image', image, image.name)
+    }
+    formdata.append('name', name)
+    return this.http.patch<Category>(`/api/category/${id}`, formdata)
+  }
 }
