@@ -1,15 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {NavigationEnd, Router} from "@angular/router";
+import {MaterialService, ModalInstance} from "../shared/classes/material.service";
+import {OrderService} from "./order.service";
 
 @Component({
   selector: 'app-order-page',
   templateUrl: './order-page.component.html',
-  styleUrls: ['./order-page.component.css']
+  styleUrls: ['./order-page.component.css'],
+  providers: [OrderService],
 })
-export class OrderPageComponent implements OnInit {
+export class OrderPageComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('modal') modalRef?: ElementRef
+  modal?: ModalInstance
+  isRoot?: boolean
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(
+    private router: Router,
+    private order: OrderService
+  ) {
   }
 
+  ngOnInit(): void {
+    this.isRoot = this.router.url === '/order'
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isRoot = event.url === '/order'
+      }
+    })
+  }
+
+  ngAfterViewInit(): void {
+    this.modal = this.modalRef && MaterialService.initModal(this.modalRef)
+  }
+
+  ngOnDestroy(): void {
+    this.modal?.destroy?.()
+  }
+
+  open() {
+    this.modal?.open?.()
+  }
+
+  cancel() {
+    this.modal?.close?.()
+  }
+
+  submit() {
+    this.modal?.close?.()
+  }
 }
