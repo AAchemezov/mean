@@ -18,7 +18,7 @@ export class CategoriesService {
     return this.http.get<Category>(`/api/category/${id}`)
   }
 
-  create(name: string, image?: File) {
+  create(name: string, image?: File): Observable<Category> {
     const formdata = new FormData()
     if (image) {
       formdata.append('image', image, image.name)
@@ -27,7 +27,7 @@ export class CategoriesService {
     return this.http.post<Category>('/api/category', formdata)
   }
 
-  update(id: string, name: string, image?: File) {
+  update(id: string, name: string, image?: File): Observable<Category> {
     const formdata = new FormData()
     if (image) {
       formdata.append('image', image, image.name)
