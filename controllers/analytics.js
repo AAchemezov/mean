@@ -6,7 +6,7 @@ const MOMENT_DAY_FORMAT = 'DD.MM.YYYY'
 
 module.exports.overview = async (req, res) => {
     try {
-        const allOrders = await Order.find({user: req.user.id}).sort(1)
+        const allOrders = await Order.find({user: req.user.id}).sort({data: 1})
         const ordersMap = getOrdersMap(allOrders)
         const yesterdayOrders = ordersMap[moment().add(-1, 'd').format(MOMENT_DAY_FORMAT)] || []
         const yesterdayOrdersNumber = yesterdayOrders.length

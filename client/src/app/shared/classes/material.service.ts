@@ -41,4 +41,7 @@ export class MaterialService {
     })
   }
 
+  static initTapTarget(ref: ElementRef) {
+    return  M.TapTarget.init(ref.nativeElement)
+  }
 }
