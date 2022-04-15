@@ -51,7 +51,22 @@ module.exports.overview = async (req, res) => {
     }
 }
 
-module.exports.analytics = (req, res) => {
+module.exports.analytics = async (req, res) => {
+    try {
+        const allOrders = await Order.find({user: req.user.id}).sort({data: 1})
+        const ordersMap = getOrdersMap(allOrders)
+        const average = +(calculatePrice(allOrders) / Object.keys(ordersMap).length).toFixed(2)
+
+        const chart = Object.entries(ordersMap).map(([label, orders]) => ({
+            label,
+            gain: calculatePrice(orders),
+            order: orders.length
+        }))
+
+        res.status(200).json({average, chart})
+    } catch (e) {
+        errorHandler(res, e)
+    }
 }
 
 function getOrdersMap(orders = []) {
