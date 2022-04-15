@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChil
 
 import {PositionsService} from "../../../shared/services/positions.service"
 import {Position} from "../../../shared/interfaces"
-import {MaterialService, ModalInstance} from "../../../shared/classes/material.service";
+import {MaterialService, MaterialInstance} from "../../../shared/classes/material.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -16,7 +16,7 @@ export class PositionFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('modal') modalRef?: ElementRef
   positions: Position[] = []
   loading = false
-  modal?: ModalInstance
+  modal?: MaterialInstance
   form: FormGroup
   private positionId?: string
 

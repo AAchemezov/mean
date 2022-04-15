@@ -2,7 +2,7 @@ import {ElementRef} from "@angular/core";
 
 declare var M: any
 
-export interface ModalInstance {
+export interface MaterialInstance {
   open?():void
   close?():void
   destroy?():void
@@ -21,7 +21,11 @@ export class MaterialService {
     M.updateTextFields()
   }
 
-  static initModal(modalRef: ElementRef):ModalInstance {
+  static initModal(modalRef: ElementRef):MaterialInstance {
     return M.Modal.init(modalRef.nativeElement)
+  }
+
+  static initTooltip(ref: ElementRef):MaterialInstance {
+    return M.Tooltip.init(ref.nativeElement)
   }
 }

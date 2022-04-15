@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
-import {MaterialService, ModalInstance} from "../shared/classes/material.service";
+import {MaterialService, MaterialInstance} from "../shared/classes/material.service";
 import {OrderService} from "./order.service";
 import {OrderPosition} from "../shared/interfaces";
 import {OrdersService} from "../shared/services/orders.service";
@@ -15,7 +15,7 @@ import {Subscription} from "rxjs";
 export class OrderPageComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('modal') modalRef?: ElementRef
   oSub?: Subscription
-  modal?: ModalInstance
+  modal?: MaterialInstance
   isRoot?: boolean
   pending = false
 
