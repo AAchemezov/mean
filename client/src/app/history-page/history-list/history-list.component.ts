@@ -14,7 +14,7 @@ export class HistoryListComponent implements OnDestroy, AfterViewInit {
   selectedOrder?: Order
 
   computePrice(order: Order): number {
-    return order.list.reduce((summ, item) => summ + item.cost * item.quantity, 0)
+    return order.list.reduce((sum, item) => sum + item.cost * item.quantity, 0)
   }
 
   selectOrder(order: Order) {
