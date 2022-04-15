@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from
 import {MaterialInstance, MaterialService} from "../shared/classes/material.service";
 import {OrdersService} from "../shared/services/orders.service";
 import {Subscription} from "rxjs";
-import {Order} from "../shared/interfaces";
+import {Filter, Order} from "../shared/interfaces";
 
 const STEP = 2
 
@@ -24,6 +24,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy, AfterViewInit {
   loading = false
   reloading = false
   noMore = false
+  filter = {}
 
   constructor(private ordersService: OrdersService) {
   }
@@ -43,8 +44,9 @@ export class HistoryPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private fetch() {
-    const {offset, limit} = this
-    const params = {offset, limit}
+    const {offset, limit, filter} = this
+    const filterNormalize = Object.fromEntries(Object.entries(filter).filter(([, value]) => !!value))
+    const params = {offset, limit, ...filterNormalize}
     this.oSub = this.ordersService.fetch(params).subscribe(
       (orders) => {
         this.noMore = orders.length < STEP
@@ -59,5 +61,17 @@ export class HistoryPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loading = true
     this.offset += STEP
     this.fetch()
+  }
+
+  applyFilter(filter: Filter) {
+    this.orders = []
+    this.offset = 0
+    this.reloading = true
+    this.filter = filter
+    this.fetch()
+  }
+
+  isFiltered(): boolean {
+    return Boolean(Object.values(this.filter).filter(Boolean).length)
   }
 }
